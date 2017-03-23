@@ -1,4 +1,10 @@
 <?php
+/*****************************
+ * RPMON
+ * Desarrollado por MdeMoUcH
+ * mdemouch@gmail.com
+ * http://www.lagranm.com/
+ *****************************/
 
 include_once('lib.php');
 
@@ -52,7 +58,7 @@ if($result){
 	$a_dataset[] = array('seriesname' => 'Temp. (ºC)', 'renderAs' => 'line', 'data' => $a_temp);
 
 	$a_data = array('categories' => $a_categories, 'dataset' => $a_dataset);
-	
+
 	$s_grafica = getChart($a_data,'mscombi2d','','','chart-grafica');
 }else{
 	$s_grafica = '<p>No data.</p>';
