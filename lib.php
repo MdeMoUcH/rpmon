@@ -25,6 +25,7 @@ class RaspberryPiMon extends bbdd {
 		$this->data->mem_used = 0;
 		$this->data->mem_total = 0;
 		$this->data->since = '';
+		$this->data->uptime = '';
 		
 		$this->updateInfo();
 		if($b_save){
@@ -38,6 +39,7 @@ class RaspberryPiMon extends bbdd {
 		$this->temp();
 		$this->ram();
 		$this->data->since = trim(shell_exec('uptime -s'));
+		$this->data->uptime = trim(shell_exec('uptime -p'));
 	}
 
 

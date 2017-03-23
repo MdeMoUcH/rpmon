@@ -96,7 +96,7 @@ if($result){
 			&nbsp;&nbsp;
 			<b>Temperature:</b> <?=$rpmon->data->temp ?>ºC
 			&nbsp;&nbsp;
-			<b>Uptime:</b> <?=$rpmon->data->since ?>
+			<b>Uptime:</b> <?=$rpmon->data->uptime ?>
 		</p>
 	</div>
 
