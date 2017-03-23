@@ -26,8 +26,9 @@ if(@$_GET['time'] != ''){
 		$result = $rpmon->getData('',$hora.':00:00');
 	}elseif(strpos($_GET['time'],'today') !== false){
 		$result = $rpmon->getData();
-	}elseif(strpos($_GET['time'],'yesterday') !== false){
-		$result = $rpmon->getData(date('Y-m-d',strtotime('-24 hours')));
+	}elseif(strpos($_GET['time'],'daysago') !== false){
+		$dia = str_replace('daysago','',$_GET['time']);
+		$result = $rpmon->getData(date('Y-m-d',strtotime('-'.$dia.' days')));
 	}else{
 		$result = $rpmon->getData();
 	}
@@ -59,9 +60,12 @@ if($result){
 
 	$a_data = array('categories' => $a_categories, 'dataset' => $a_dataset);
 
+
 	$s_grafica = getChart($a_data,'mscombi2d','','','chart-grafica');
+	$s_nodata = '';
 }else{
-	$s_grafica = '<p>No data.</p>';
+	$s_grafica = '';
+	$s_nodata = '<p class="centered">No data</p>';
 }
 
 
@@ -81,7 +85,6 @@ if($result){
 	<h2><?=$hostname?></h2>
 
 	<div>
-		
 		<p>
 			<b>SYSTEM STATUS:</b>
 			&nbsp;&nbsp;
@@ -98,21 +101,27 @@ if($result){
 	</div>
 
 	<div id="chart-grafica" class="info_box big_info_box ui-state-default">
+		<?=$s_nodata?>
 	</div>
-	<input type="hidden" id="aaSorting" value="1" />
-
 
 	<div id="enlaces" class="info_box big_info_box ui-state-default">
-		<p style="text-align:center;">
-			<a href='?time=today'>Today</a>
-			&nbsp;&nbsp;&nbsp;
-			<a href='?time=9pm'>Since 9:00<small>PM</small></a>
-			&nbsp;&nbsp;&nbsp;
+		<p class="centered">
 			<a href='?time=1hours'>1 hour ago</a>
 			&nbsp;&nbsp;&nbsp;
 			<a href='?time=2hours'>2 hours ago</a>
 			&nbsp;&nbsp;&nbsp;
 			<a href='?time=3hours'>3 hours ago</a>
+			&nbsp;&nbsp;&nbsp;
+			<a href='?time=9pm'>Since 9:00<small>PM</small></a>
+		</p>
+		<p class="centered">
+			<a href='?time=today'>Today</a>
+			&nbsp;&nbsp;&nbsp;
+			<a href='?time=1daysago'>Yesterday</a>
+			&nbsp;&nbsp;&nbsp;
+			<a href='?time=2daysago'>2 days ago</a>
+			&nbsp;&nbsp;&nbsp;
+			<a href='?time=3daysago'>3 days ago</a>
 		</p>
 	</div>
 
