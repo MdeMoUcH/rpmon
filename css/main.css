@@ -1,0 +1,37 @@
+body{
+	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
+	font-size: 82.5%;
+	color: #555555;
+}
+
+.info_box{
+	float:left;
+	margin:10px;
+	padding:5px;
+	min-width:320px;
+	width:98%;
+}
+
+.info_box h2{
+	margin:0px;
+	margin-left:25px;
+}
+
+.info_box h2 small{
+	font-size: 50%;
+}
+
+.small_info_box{
+	width: 32.5%;
+	min-width:280px;
+	margin-right:0.8%;
+	float:left;
+}
+
+.medium_info_box{
+	width: 45%;
+}
+
+.big_info_box{
+	width: 95%;
+}
