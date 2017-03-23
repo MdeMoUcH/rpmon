@@ -116,9 +116,7 @@ if($result){
 		</p>
 	</div>
 
-	
-	<br/><br/><br/>
-	<div id="multidialog" title="" class="dialogo"></div>
+	<!--<div class="info_box footer"><p>&copy; 2017 <a target="_blank" href="http://www.twitter.com/mdemouch">MdeMoUcH</a> <a target="_blank" href="http://www.lagranm.com/">lagranm.com</a></p></div>-->
 	
 	<script src="js/fusioncharts.js"></script>
 	<script src="js/fusioncharts.charts.js"></script>
