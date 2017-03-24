@@ -10,9 +10,9 @@
 class bbdd {
 	function __construct(){
 		$db_host = 'localhost';
-		$db_user = 'user';
-		$db_pass = 'pass';
-		$db_name = 'rpmon';
+		$db_user = 'root';
+		$db_pass = 'sinpass';
+		$db_name = 'sml';
 		
 		$this->resultado = array();
 		$this->errores = array();

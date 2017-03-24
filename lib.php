@@ -78,7 +78,7 @@ class RaspberryPiMon extends bbdd {
 			$s_temp = shell_exec('sensors');
 			$this->data->temp = trim(substr($s_temp, strpos($s_temp, 'Physical')+17,4));
 		}
-	}
+	}	
 	
 	
 	function saveInfo(){
@@ -93,6 +93,36 @@ class RaspberryPiMon extends bbdd {
 		}
 		$s_sql = 'SELECT * FROM rpmon WHERE fecha >= "'.$day.' '.$start.'" AND fecha <= "'.$day.' '.$end.'" ORDER BY fecha ASC;';
 		return $this->consulta($s_sql);
+	}
+
+
+	function calculateDay($dia_anterior = ''){
+		if($dia_anterior == ''){
+			$dia_anterior = date('Y-m-d',strtotime('-1 days'));
+			$dia_actual = date('Y-m-d');
+		}else{
+			$dia_actual = date('Y-m-d',strtotime('+1 day',strtotime($dia_anterior)));
+		}
+
+		$s_sql = 'SELECT * FROM rpmon_day WHERE fecha like "%'.$dia_anterior.'%";';
+
+		if(!$this->consulta($s_sql)){
+			$s_sql = 'SELECT count(id) as total, SUM(carga) as carga, SUM(temp) as temp, SUM(mem_used) as mem_used, SUM(mem_total) as mem_total, SUM(usuarios) as usuarios FROM rpmon WHERE fecha BETWEEN "'.$dia_anterior.'" AND "'.$dia_actual.'";';
+			if($this->consulta($s_sql)){
+				$s_sql = 'INSERT INTO rpmon_day (fecha,carga,usuarios,temp,mem_used,mem_total) VALUES ("'.
+					$dia_anterior.'",'.
+					round($this->resultado[0]['carga']/$this->resultado[0]['total'],2).','.
+					round($this->resultado[0]['usuarios']/$this->resultado[0]['total'],2).','.
+					round($this->resultado[0]['temp']/$this->resultado[0]['total'],2).','.
+					round($this->resultado[0]['mem_used']/$this->resultado[0]['total'],2).','.
+					round($this->resultado[0]['mem_total']/$this->resultado[0]['total'],2).');';
+				return $this->insertUpdate($s_sql);
+			}else{
+				return false;
+			}
+		}else{
+			return true;
+		}
 	}
 }//class
 

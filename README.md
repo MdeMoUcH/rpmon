@@ -7,7 +7,7 @@ Monitor de estado para sistemas basados en Debian (Ubuntu, Raspbian, etc). Guard
 Instalación
 -----------
 
-* Hay que meter la tabla (*table.sql*) en una base de datos y configurar el archivo *bbdd.php* con los datos de acceso.
+* Hay que ejecutar el script sql (*rpmon.sql*) en una base de datos y configurar el archivo *bbdd.php* con los datos de acceso.
 
 * Para controlar la temperatura en Ubuntu hay que instalar los sensores:
 ```
@@ -15,7 +15,7 @@ Instalación
 		sudo sensors-detect
 ```
 
-* Probado en Raspbian y en Ubuntu.
+* Probado en Raspbian y Ubuntu.
 
 
 Screenshot

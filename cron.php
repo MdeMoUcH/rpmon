@@ -8,8 +8,12 @@
 
 include_once('lib.php');
 
-
-$rpmon = new RaspberryPiMon(true);
+if(trim(shell_exec('whoami')) != 'www-data'){
+	$rpmon = new RaspberryPiMon(true);
+	$rpmon->calculateDay();
+}else{
+	header('Location: index.php');
+}
 
 
 die('done.'.PHP_EOL);
