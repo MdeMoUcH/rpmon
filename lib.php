@@ -124,6 +124,12 @@ class RaspberryPiMon extends bbdd {
 			return true;
 		}
 	}
+	
+	
+	function getDailyData(){
+		$s_sql = 'SELECT * FROM rpmon_day ORDER BY fecha ASC LIMIT 200;';
+		return $this->consulta($s_sql);
+	}
 }//class
 
 
