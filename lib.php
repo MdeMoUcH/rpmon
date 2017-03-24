@@ -76,7 +76,11 @@ class RaspberryPiMon extends bbdd {
 			sudo apt-get install lm-sensors
 			sudo sensors-detect */
 			$s_temp = shell_exec('sensors');
-			$this->data->temp = trim(substr($s_temp, strpos($s_temp, 'Physical')+17,4));
+			if(strpos($s_temp,'Physical') !== false){
+				$this->data->temp = trim(substr($s_temp, strpos($s_temp, 'Physical')+17,4));
+			}else{
+				$this->data->temp = 0;
+			}
 		}
 	}	
 	
