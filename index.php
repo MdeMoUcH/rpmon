@@ -32,6 +32,8 @@ if(@$_GET['time'] != ''){
 	}else{
 		$result = $rpmon->getData();
 	}
+}elseif(@$_GET['daily'] != ''){
+	$result = $rpmon->getDailyData();
 }else{
 	$result = $rpmon->getData('',date('H:i:s',strtotime('-6 hour')));
 }
@@ -45,7 +47,12 @@ if($result){
 	$a_mem = array();
 
 	foreach($rpmon->resultado as $element){
-		$a_categories['category'][] = array('label' => format_hora($element['fecha']));
+		if(strlen($element['fecha']) > 10){
+			$fecha = format_hora($element['fecha']);
+		}else{
+			$fecha = $element['fecha'];
+		}
+		$a_categories['category'][] = array('label' => $fecha);
 
 		$a_carga[] = array('value' => $element['carga']);
 
@@ -69,6 +76,9 @@ if($result){
 }
 
 
+$s_system_status = $rpmon->showData();
+
+
 
 
 
@@ -77,27 +87,15 @@ if($result){
 <head>
 	<meta charset="utf-8">
 	<title><?=$hostname?></title>
-	<link rel="stylesheet" href="css/jquery-ui.css">
+	<!--<link rel="stylesheet" href="css/jquery-ui.css">-->
 	<link rel="stylesheet" href="css/main.css">
 	<meta http-equiv="refresh" content="300" >
 </head>
 <body>
-	<h2><?=$hostname?></h2>
+	<h2 class=""><?=$hostname?></h2>
 
-	<div>
-		<p>
-			<b>SYSTEM STATUS:</b>
-			&nbsp;&nbsp;
-			<b>CPU:</b> <?=$rpmon->data->load ?>%
-			&nbsp;&nbsp;
-			<b>RAM:</b> <?=$rpmon->data->mem_used ?>/<?=$rpmon->data->mem_total ?> <small>MB</small>
-			&nbsp;&nbsp;
-			<b>Users:</b> <?=$rpmon->data->users ?>
-			&nbsp;&nbsp;
-			<b>Temperature:</b> <?=$rpmon->data->temp ?>ºC
-			&nbsp;&nbsp;
-			<b>Uptime:</b> <?=$rpmon->data->uptime ?>
-		</p>
+	<div id="system-status" class="info_box big_info_box">
+		<?=$s_system_status?>
 	</div>
 
 	<div id="chart-grafica" class="info_box big_info_box ui-state-default">
@@ -122,6 +120,8 @@ if($result){
 			<a href='?time=2daysago'>2 days ago</a>
 			&nbsp;&nbsp;&nbsp;
 			<a href='?time=3daysago'>3 days ago</a>
+			&nbsp;&nbsp;&nbsp;
+			<a href='?daily=yes'>Daily</a>
 		</p>
 	</div>
 
@@ -132,6 +132,23 @@ if($result){
 	<script src="js/fusioncharts.powercharts.js"></script>
 	<script src="js/jquery-1.11.3.min.js"></script>
 	<?=$s_grafica?>
+	<script type="text/javascript">
+		window.setInterval(updateStatus, 2000);
+
+		function updateStatus(){
+			$.ajax({
+			  url: 'ajax.php',
+			  type: 'POST',
+			  async: true,
+			  //data: 'control=data',
+			  success: function(data){
+					//$("#enlaces").html($("#enlaces").html()+'.');
+					$("#system-status").html(data);
+				  }
+			  //error: alert("error")
+			});
+		}
+	</script>
 </body>
 </HTML>
 

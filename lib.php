@@ -134,6 +134,32 @@ class RaspberryPiMon extends bbdd {
 		$s_sql = 'SELECT * FROM rpmon_day ORDER BY fecha ASC LIMIT 200;';
 		return $this->consulta($s_sql);
 	}
+
+
+	function showData(){
+		//$this->data->load = 12.1;
+		
+		if(strpos($this->data->load,'.') === false){
+			$this->data->load = $this->data->load.'.00';
+		}elseif(strlen($this->data->load) < 5){
+			$this->data->load = $this->data->load.'0';	
+		}
+
+		return "
+		<p>
+			<b>SYSTEM STATUS:</b>
+			&nbsp;&nbsp;
+			<b>CPU:</b> ".$this->data->load ."%
+			&nbsp;&nbsp;
+			<b>RAM:</b> ".$this->data->mem_used ."/".$this->data->mem_total ." <small>MB</small>
+			&nbsp;&nbsp;
+			<b>Users:</b> ".$this->data->users ."
+			&nbsp;&nbsp;
+			<b>Temperature:</b> ".$this->data->temp ."ºC
+			&nbsp;&nbsp;
+			<b>Uptime:</b> ".$this->data->uptime."
+		</p>";
+	}
 }//class
 
 

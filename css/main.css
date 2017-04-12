@@ -11,12 +11,24 @@ body{
 	color: #555555;
 }
 
+h1,h2,h3 {
+	float:left;
+	margin:0px;
+	margin-left:15px;
+	min-width:320px;
+	width:98%;
+}
+
 .info_box{
 	float:left;
 	margin:10px;
 	padding:5px;
 	min-width:320px;
 	width:98%;
+    background: #e6e6e6;
+    border: 1px solid #d3d3d3;
+    color: #555555;
+    font-weight: normal;
 }
 
 .info_box h2{
@@ -26,6 +38,11 @@ body{
 
 .info_box h2 small{
 	font-size: 50%;
+}
+
+.info_box a{
+	text-decoration: none;
+	color: #555555;
 }
 
 .small_info_box{
