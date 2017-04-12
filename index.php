@@ -12,30 +12,40 @@ include_once('lib.php');
 
 $rpmon = new RaspberryPiMon();
 
+if(@$_POST['ajax'] == 'yes'){
+	die($rpmon->showData());
+}
+
 $hostname = shell_exec('hostname');
+
+$titulo = '';
 
 if(@$_GET['time'] != ''){
 	if(strpos($_GET['time'],'hours') != 0){
 		$horas = str_replace('hours','',$_GET['time']);
 		$result = $rpmon->getData('',date('H:i:s',strtotime('-'.$horas.' hours')));
-	}elseif(strpos($_GET['time'],'pm') != 0){
-		$hora = str_replace('pm','',$_GET['time']);
+		$titulo = 'Last '.$horas.' hours';
+	}elseif(strpos($_GET['time'],'am') != 0){
+		$hora = str_replace('am','',$_GET['time']);
 		if(strlen($hora) < 2){
 			$hora = '0'.$hora;
 		}
 		$result = $rpmon->getData('',$hora.':00:00');
-	}elseif(strpos($_GET['time'],'today') !== false){
-		$result = $rpmon->getData();
+		$titulo = 'Since '.$hora.':00 AM';
 	}elseif(strpos($_GET['time'],'daysago') !== false){
 		$dia = str_replace('daysago','',$_GET['time']);
 		$result = $rpmon->getData(date('Y-m-d',strtotime('-'.$dia.' days')));
+		$titulo = $dia.' days ago';
 	}else{
 		$result = $rpmon->getData();
+		$titulo = 'Today';
 	}
 }elseif(@$_GET['daily'] != ''){
 	$result = $rpmon->getDailyData();
+	$titulo = 'Last days';
 }else{
 	$result = $rpmon->getData('',date('H:i:s',strtotime('-6 hour')));
+	$titulo = 'Last '.$horas.' hours';
 }
 
 
@@ -68,7 +78,7 @@ if($result){
 	$a_data = array('categories' => $a_categories, 'dataset' => $a_dataset);
 
 
-	$s_grafica = getChart($a_data,'mscombi2d','','','chart-grafica');
+	$s_grafica = getChart($a_data,'mscombi2d',$titulo,'','chart-grafica');
 	$s_nodata = '';
 }else{
 	$s_grafica = '';
@@ -87,7 +97,6 @@ $s_system_status = $rpmon->showData();
 <head>
 	<meta charset="utf-8">
 	<title><?=$hostname?></title>
-	<!--<link rel="stylesheet" href="css/jquery-ui.css">-->
 	<link rel="stylesheet" href="css/main.css">
 	<meta http-equiv="refresh" content="300" >
 </head>
@@ -110,7 +119,7 @@ $s_system_status = $rpmon->showData();
 			&nbsp;&nbsp;&nbsp;
 			<a href='?time=3hours'>3 hours ago</a>
 			&nbsp;&nbsp;&nbsp;
-			<a href='?time=9pm'>Since 9:00<small>PM</small></a>
+			<a href='?time=9am'>Since 9:00<small>AM</small></a>
 		</p>
 		<p class="centered">
 			<a href='?time=today'>Today</a>
@@ -140,7 +149,7 @@ $s_system_status = $rpmon->showData();
 			  url: 'ajax.php',
 			  type: 'POST',
 			  async: true,
-			  //data: 'control=data',
+			  data: 'ajax=yes',
 			  success: function(data){
 					//$("#enlaces").html($("#enlaces").html()+'.');
 					$("#system-status").html(data);
