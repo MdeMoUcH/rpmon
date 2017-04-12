@@ -23,7 +23,7 @@ $titulo = '';
 if(@$_GET['time'] != ''){
 	if(strpos($_GET['time'],'hours') != 0){
 		$horas = str_replace('hours','',$_GET['time']);
-		$result = $rpmon->getData('',date('H:i:s',strtotime('-'.$horas.' hours')));
+		$result = $rpmon->getData('',date('H:i:s',strtotime('-'.$horas.' housr')));
 		$titulo = 'Last '.$horas.' hours';
 	}elseif(strpos($_GET['time'],'am') != 0){
 		$hora = str_replace('am','',$_GET['time']);
@@ -45,7 +45,7 @@ if(@$_GET['time'] != ''){
 	$titulo = 'Last days';
 }else{
 	$result = $rpmon->getData('',date('H:i:s',strtotime('-6 hour')));
-	$titulo = 'Last '.$horas.' hours';
+	$titulo = 'Last 6 hours';
 }
 
 
