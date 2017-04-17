@@ -142,7 +142,11 @@ class RaspberryPiMon extends bbdd {
 		if(strpos($this->data->load,'.') === false){
 			$this->data->load = $this->data->load.'.00';
 		}elseif(strlen($this->data->load) < 5){
-			$this->data->load = $this->data->load.'0';	
+			if(strpos($this->data->load,'.') === 1){
+				$this->data->load = ' '.$this->data->load;
+			}elseif(strpos($this->data->load,'.') === 2){
+				$this->data->load = $this->data->load.'0';
+			}
 		}
 
 		return "
