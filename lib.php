@@ -131,7 +131,8 @@ class RaspberryPiMon extends bbdd {
 	
 	
 	function getDailyData(){
-		$s_sql = 'SELECT * FROM rpmon_day ORDER BY fecha ASC LIMIT 200;';
+		$s_sql = 'SELECT * FROM (SELECT * FROM rpmon_day ORDER BY fecha DESC LIMIT 200) as aux ORDER BY aux.fecha ASC;';
+
 		return $this->consulta($s_sql);
 	}
 
